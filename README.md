@@ -6,9 +6,11 @@ Flows in this repository are adaptations from the following people:
 Nate Herk: https://www.youtube.com/@nateherk/videos
   - Agent prompt engineering
   - AI Personnal Assistant 2.0
+
 Oskar: https://www.youtube.com/@workfloows
   - n8n with Cloudflare Worker
   - Telegram Bot Integration
+
 Base templates adapted from the n8n repository:
   - https://n8n.io/workflows/
   - Technical Analyst AI Agent, Derek Chung: https://n8n.io/workflows/2569-technical-analyst-ai-agent-using-llm-vision/
