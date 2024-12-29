@@ -20,7 +20,6 @@ Useful documentation pages:
 3. n8n: https://docs.n8n.io/
   - Google Credentials: [https://docs.n8n.io/integrations/builtin/credentials/google/](https://docs.n8n.io/integrations/builtin/credentials/google/oauth-generic/#enable-apis)
   - Telegram Credentials: https://docs.n8n.io/integrations/builtin/credentials/telegram/#using-api-bot-access-token
-  - 
 4. Anthropic: https://www.anthropic.com/api
 
 Textbased News Pages:
