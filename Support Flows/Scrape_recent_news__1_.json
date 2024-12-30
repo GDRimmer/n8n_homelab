@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "url": "=https://newsapi.org/v2/top-headlines?country=us&apiKey=d1feb91ff3d5401cbd0277157a3a3f4c",
+        "url": "=https://newsapi.org/v2/top-headlines?country=us&apiKey=[API KEY GOES HERE]",
         "options": {}
       },
       "id": "00559e38-9d28-4699-a4fd-57f9b979dee1",
