@@ -84,7 +84,7 @@
     {
       "parameters": {
         "name": "Weather",
-        "description": "Call this tool to get the current weather forecast for Southern Pines, nc. ",
+        "description": "Call this tool to get the current weather forecast",
         "workflowId": {
           "__rl": true,
           "value": "QoaNKst3wjBIGYTn",
@@ -105,7 +105,7 @@
     {
       "parameters": {
         "name": "News",
-        "description": "Call this tool to get a summary of the latest news stories. ",
+        "description": "Call this tool to get a summary of the latest news stories.",
         "workflowId": {
           "__rl": true,
           "value": "An15bBILYgnvYuNQ",
