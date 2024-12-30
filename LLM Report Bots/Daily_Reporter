@@ -99,7 +99,7 @@
     },
     {
       "parameters": {
-        "sendTo": "gerald.rimmer@gmail.com, liz.lippierimmer@gmail.com",
+        "sendTo": "<EMAIL GOES HERE>",
         "subject": "=News Update {{ $('Every Morning @6').item.json['Readable date'] }}",
         "emailType": "text",
         "message": "={{ $json.output }}",
