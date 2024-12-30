@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "url": "=https://forecast.weather.gov/MapClick.php?lat=35.1762156&lon=-79.3901026",
+        "url": "=https://forecast.weather.gov/MapClick.php?lat=[UPDATE]&lon=[UPDATE]",
         "options": {}
       },
       "id": "ed492379-108b-4092-936d-73c15a50c3c5",
@@ -49,7 +49,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "Summarize the weather report for today. Report the temperature in degrees Fahrenheit. Be sure to highlight any extreme weather or emergency alert messages.\n\nAn example of a correct response looks like:\nWeather Forecast for Southern Pines, North Carolina:\nThe weather in Southern Pines, North Carolina, is partly cloudy with a high temperature of 55°F and low temperature of 21°F. There are no extreme weather or emergency alerts in effect for the area.",
+        "text": "Summarize the weather report for today. Report the temperature in degrees Fahrenheit. Be sure to highlight any extreme weather or emergency alert messages.\n\nAn example of a correct response looks like:\nWeather Forecast for Ashville, North Carolina:\nThe weather in Ashville, North Carolina, is partly cloudy with a high temperature of 55°F and low temperature of 21°F. There are no extreme weather or emergency alerts in effect for the area.",
         "messages": {
           "messageValues": [
             {
