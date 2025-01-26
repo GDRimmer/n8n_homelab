@@ -30,4 +30,5 @@ Textbased News Pages:
 2. https://www.csmonitor.com/layout/set/text/textedition
 3. https://lite.poandpo.com/
 4. https://en.wikipedia.org/wiki/Portal:Current_events
+   
 Ref: https://greycoder.com/a-list-of-text-only-new-sites/
