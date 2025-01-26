@@ -1,0 +1,320 @@
+{
+  "name": "Technical Stock Analyst",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e37e64f6-64e7-4fbd-9ea1-e9d3ef99b39c",
+              "name": "response",
+              "type": "string",
+              "value": "={{ $json.text }}\n\nHere is the URL to the graph :\n\n{{ $('Tradingview Chart').item.json.url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "386a8d84-026b-44c2-a895-05731fa66e04",
+      "name": "Set 'response' value",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1540,
+        20
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {
+        "content": "## Technical analysis\n### Please update the exchange in settings.  Defaults to NYSE",
+        "height": 368,
+        "width": 1152,
+        "color": 7
+      },
+      "id": "543dd5a4-f501-4c34-813d-4bf07148d715",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        540,
+        -80
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "dc908e66-1f8a-440f-8b28-625f84e94df8",
+      "name": "Download Chart",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        980,
+        20
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.chart-img.com/v2/tradingview/advanced-chart/storage",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "symbol",
+              "value": "={{ $json.exchange }}:{{ $json.company }}"
+            },
+            {
+              "name": "studies",
+              "value": "={{\n[\n      {\n        \"name\": \"Volume\"\n      },\n      {\n        \"name\": \"Relative Strength Index\"\n      },\n      {\n        \"name\": \"Directional Movement\",\n        \"override\": {\n          \"+DI.visible\": true,\n          \"+DI.linewidth\": 1,\n          \"+DI.plottype\": \"line\",\n          \"+DI.color\": \"rgb(33,150,243)\",\n          \"-DI.visible\": true,\n          \"-DI.linewidth\": 1,\n          \"-DI.plottype\": \"line\",\n          \"-DI.color\": \"rgb(255,109,0)\",\n          \"DX.visible\": false,\n          \"DX.linewidth\": 1,\n          \"DX.plottype\": \"line\",\n          \"DX.color\": \"rgba(255,255,255,0)\",\n          \"ADX.visible\": true,\n          \"ADX.linewidth\": 2,\n          \"ADX.plottype\": \"line\",\n          \"ADX.color\": \"rgb(245,0,87)\",\n          \"ADXR.visible\": false,\n          \"ADXR.linewidth\": 1,\n          \"ADXR.plottype\": \"line\",\n          \"ADXR.color\": \"rgba(255,255,255,0)\"\n        }\n      }\n    ]\n}}"
+            },
+            {
+              "name": "format",
+              "value": "jpeg"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3a5d3819-73c0-4112-9227-4ee7fb8f9d76",
+      "name": "Tradingview Chart",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        780,
+        20
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "qHx0xPsBsABzHiGe",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1eb4f1e8-207e-4fe7-8f05-37076d549d7d",
+              "name": "company",
+              "type": "string",
+              "value": "={{ $json.query.ticker }}"
+            },
+            {
+              "id": "10712ba2-d809-4dfe-870f-fc5d332ab556",
+              "name": "exchange",
+              "type": "string",
+              "value": "={{ $json.query.exchange }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "467b3c38-2396-48bb-9d28-69aeca688ef7",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        600,
+        20
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {},
+      "id": "69f059c6-3f3d-4cf8-b29e-4ebb69188a62",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        340,
+        20
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Start here: Step-by Step Youtube Tutorial :star:\n\n[![Technical Analyst AI Agent using LLM Vision](https://img.youtube.com/vi/yjBHheCB6Ek/sddefault.jpg)](https://youtu.be/yjBHheCB6Ek)\n",
+        "height": 550,
+        "width": 507,
+        "color": 7
+      },
+      "id": "00b54ca3-c92c-436c-8d5e-fbbe5156c387",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -340,
+        -160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20241022",
+        "options": {}
+      },
+      "id": "c2c6d06b-71a4-4162-b72b-f69a19c3f9f5",
+      "name": "Anthropic Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "position": [
+        1220,
+        200
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "anthropicApi": {
+          "id": "Y8Jj5utib2BsMmqK",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert financial analyst tasked with providing a comprehensive technical analysis of a stock. Your analysis will be based on various technical indicators and will provide detailed insights for potential investors or traders.\n\nThe company you will analyze is:\n{{ $('Settings').item.json.company }}\n\n\nPlease provide a thorough technical analysis of {{ $('Settings').item.json.company }}'s stock using the following indicators. For each indicator, first explain its significance and how to interpret it, then analyze the specific aspects requested. Use numerical values and specific price levels wherever possible.\n\n1. Candlestick Patterns & Price Trends\n\nBefore analyzing, list out the key aspects you need to consider for this indicator. \n\n- Explain the significance of candlestick patterns and price trends in technical analysis.\n- Describe how to interpret green and red candles, long wicks, and common patterns like doji, hammers, or engulfing patterns.\n- Analyze the following aspects for {{ $('Settings').item.json.company }}:\n  - Overall trend direction\n  - Significant candlestick patterns observed\n  - Key price levels, including any breakouts or breakdowns\n- State any assumptions you're making based on the available information.\n\n2. Relative Strength Index (RSI)\n\nBefore analyzing, list out the key aspects you need to consider for this indicator. \n\n- Explain what the RSI measures and how to interpret its values, including overbought and oversold conditions.\n- Describe the significance of RSI divergences from price.\n- Analyze the following for {{ $('Settings').item.json.company }}:\n  - Current RSI value and its direction\n  - Presence of any divergences between RSI and price\n  - Any overbought or oversold conditions\n- State any assumptions you're making based on the available information.\n\n3. Directional Movement Index (DMI)\n\nBefore analyzing, list out the key aspects you need to consider for this indicator.:\n\n- Describe the components of the DMI (+DMI, -DMI, and ADX) and explain how to interpret them.\n- Include explanations of what constitutes strong trends and the significance of crossovers.\n- Analyze the following for {{ $('Settings').item.json.company }}:\n  - Current ADX value and what it indicates about trend strength\n  - Positioning of +DMI versus -DMI\n  - Any recent crossovers and their implications\n- State any assumptions you're making based on the available information.\n\n4. Volume Analysis\n\nBefore analyzing, list out the key aspects you need to consider for this indicator. \n\n- Explain the importance of volume in confirming price movements and its role in technical analysis.\n- Describe how to interpret volume trends in relation to price trends.\n- Analyze the following for {{ $('Settings').item.json.company }}:\n  - Relationship between volume trend and price trend\n  - Any notable volume patterns\n  - How volume is confirming or contradicting recent price moves\n- State any assumptions you're making based on the available information.\n\n5. Final Technical Outlook\n\nBefore providing your final outlook, list out the key points from previous analyses that you'll consider. \n\n- Synthesize the information from all the previous analyses to provide a comprehensive technical outlook.\n- Consider how the different indicators complement or contradict each other.\n- Provide the following:\n  - Overall market position (bullish, bearish, or neutral)\n  - Key support and resistance levels\n  - Potential entry and exit points for trades\n  - Suggested stop loss levels\n  - Risk/reward ratio for potential trades\n- State any final assumptions or caveats about your analysis.\n\nPlease format your response using markdown. Ensure that your explanations are detailed and thorough, providing context for your analysis at each step.\n\nToday is {{ $now }}",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary"
+            }
+          ]
+        }
+      },
+      "id": "14777994-1ecb-43eb-a1bb-e05f4ced2563",
+      "name": "Extract analyst question and management response",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        1200,
+        20
+      ],
+      "typeVersion": 1.4
+    }
+  ],
+  "pinData": {
+    "Execute Workflow Trigger": [
+      {
+        "json": {
+          "query": {
+            "exchange": "NYSE",
+            "ticker": "VTI"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Tradingview Chart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Chart": {
+      "main": [
+        [
+          {
+            "node": "Extract analyst question and management response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tradingview Chart": {
+      "main": [
+        [
+          {
+            "node": "Download Chart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract analyst question and management response",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract analyst question and management response": {
+      "main": [
+        [
+          {
+            "node": "Set 'response' value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7b11ff75-400b-4bc2-98b4-87114a5fec3d",
+  "meta": {
+    "instanceId": "ff19fe3e1ecede32a9b50e41396632f656322b274eb4b7328c6b113e54538cd9"
+  },
+  "id": "9G52bOjqjki3Z5Gq",
+  "tags": [
+    {
+      "createdAt": "2025-01-05T18:49:13.728Z",
+      "updatedAt": "2025-01-05T18:49:13.728Z",
+      "id": "QgolFoyYPi2dyy0d",
+      "name": "Support"
+    },
+    {
+      "createdAt": "2025-01-05T20:43:31.392Z",
+      "updatedAt": "2025-01-05T20:43:31.392Z",
+      "id": "8ItsqnxmaGU2iOUh",
+      "name": "Finance"
+    },
+    {
+      "createdAt": "2025-01-05T20:43:31.401Z",
+      "updatedAt": "2025-01-05T20:43:31.401Z",
+      "id": "Hxb5DB2ii3nbCwlb",
+      "name": "ChartIMG"
+    }
+  ]
+}
