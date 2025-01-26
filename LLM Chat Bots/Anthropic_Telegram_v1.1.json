@@ -1,0 +1,314 @@
+{
+  "name": "Anthropic Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a552ef72-9d57-45ff-8c3d-7f12b44f9bd8",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        220
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "Y8Jj5utib2BsMmqK",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "edee2185-531c-46ca-953a-706de90a8321",
+      "name": "Calculator",
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        620,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7958574e-09fa-4753-909b-00f421c00b89",
+      "name": "SerpAPI",
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        740,
+        260
+      ],
+      "credentials": {
+        "serpApi": {
+          "id": "KNnxk9WHbwXKMy0T",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "e5942378-eb76-42d5-8bfc-0279f13652bf",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        860,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "name": "Stock__analysis",
+        "description": "You are an expert financial analyst tasked with providing a comprehensive technical analysis of a stock. Your analysis will be based on various technical indicators and will provide detailed insights for potential investors or traders.",
+        "workflowId": {
+          "__rl": true,
+          "value": "9G52bOjqjki3Z5Gq",
+          "mode": "list",
+          "cachedResultName": "Technical Stock Analyst"
+        },
+        "specifyInputSchema": true,
+        "jsonSchemaExample": "{\n\t\"exchange\": \"some_value\",\n    \"ticker\": \"some_value\"\n}"
+      },
+      "id": "158e8327-522a-4127-9ea0-07940576458e",
+      "name": "Stock Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1000,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "name": "Weather",
+        "description": "Call this tool to get the current weather forecast for Southern Pines, nc. ",
+        "workflowId": {
+          "__rl": true,
+          "value": "MUarbgY47PoDj66i",
+          "mode": "list",
+          "cachedResultName": "Weather Summary"
+        },
+        "responsePropertyName": "text"
+      },
+      "id": "8ad4edb3-df06-4136-9798-8d5d429392c0",
+      "name": "Weather Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "name": "News",
+        "description": "Call this tool to get a summary of the latest news stories. ",
+        "workflowId": {
+          "__rl": true,
+          "value": "An15bBILYgnvYuNQ",
+          "mode": "list",
+          "cachedResultName": "Scrape recent news v2"
+        },
+        "responsePropertyName": "output"
+      },
+      "id": "990785d9-5239-45aa-ad03-1580bbda00ab",
+      "name": "News",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        340,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "96b9ef16-aa80-43b3-b65f-030fae9d2262",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "57829c8a-5525-450d-aa49-25257878f253",
+      "credentials": {
+        "telegramApi": {
+          "id": "kTh2t7vs6slkcFlV",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {}
+      },
+      "id": "69b53215-52e6-44e2-9ecf-a878f03a4863",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        240,
+        0
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "id": "8d7872ac-c38b-40a0-ba68-71c9355fb8fe",
+      "name": "Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        0
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "kTh2t7vs6slkcFlV",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stock Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weather Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "News": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2ff52e3d-b3df-4c45-b80b-0cab23bf8faf",
+  "meta": {
+    "instanceId": "ff19fe3e1ecede32a9b50e41396632f656322b274eb4b7328c6b113e54538cd9"
+  },
+  "id": "Y5OuEj7gw34eIRJH",
+  "tags": [
+    {
+      "createdAt": "2025-01-05T18:44:23.548Z",
+      "updatedAt": "2025-01-05T18:44:23.548Z",
+      "id": "gAtzj04Q38eBG5g4",
+      "name": "Anthropic LLM"
+    },
+    {
+      "createdAt": "2025-01-05T18:44:23.556Z",
+      "updatedAt": "2025-01-05T18:44:23.556Z",
+      "id": "c8noA5fC3Ek2zWau",
+      "name": "Production"
+    }
+  ]
+}
