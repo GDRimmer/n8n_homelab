@@ -15,6 +15,7 @@ Dependencies: Scrape_recent_news_1 flow, NewsAPI API key, SerpAPI API key
 
 Technical_Analyst_AI_Agent_using_LLM_Vision Flow
 Dependencies: Modify the "exchange" setting to either nasdaq, dj, or sp
+v1.1 - Modified input scheme to allow for dynamic exchange inputs
 Ref: https://doc.chart-img.com/#introduction, https://doc.chart-img.com/#indices-north-america
 
 <img width="863" alt="image" src="https://github.com/user-attachments/assets/ac6d9ea2-949e-443c-a72c-1a0ac1251e29" />
