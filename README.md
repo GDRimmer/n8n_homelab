@@ -26,6 +26,7 @@ Useful documentation pages:
 4. Anthropic: https://www.anthropic.com/api
 
 Textbased News Pages:
+
 Ref: https://greycoder.com/a-list-of-text-only-new-sites/
 1. https://lite.cnn.com/
 2. https://www.csmonitor.com/layout/set/text/textedition
