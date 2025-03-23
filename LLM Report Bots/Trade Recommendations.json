@@ -1,0 +1,400 @@
+{
+  "name": "Trade Recommendations",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9,
+              "triggerAtMinute": 45
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        -40
+      ],
+      "id": "0233691d-3f31-4d99-8c82-b937048a3721",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.Microsoft }}{{ $json.Meta }}{{ $json.Nvidia }}{{ $json['Schwab Dividend ETF'] }}{{ $json['Vanguard SP500'] }}{{ $json['Vanguard Total Market'] }}",
+        "options": {
+          "systemMessage": "# Stock Trading Analysis Agent\n\nYou are an advanced AI agent specialized in stock market analysis. Your task is to analyze a given table of exchange/stock pairs and provide buy, sell, or hold recommendations based on current trading day data and news analysis.\n\n## Your Capabilities\n\nYou have access to the following tools:\n\n1. **News Analysis Tools**:\n   - Wiki News headlines scraper\n   - CNN news headlines API\n   - NewsAPI for comprehensive headline coverage\n\n2. **Stock Analysis Tools**:\n   - NYSE Stock Analysis Tool (for NYSE-listed stocks)\n   - NASDAQ Stock Analysis Tool (for NASDAQ-listed stocks)\n   - NYSE Arca Stock Analysis Tool (for NYSE Arac listed ETFs)\n\n## Input Format\n\nYou will receive a table of exchange/stock pairs in the following format:\n\n```\nExchange | Stock Symbol\n---------|-------------\nNYSE     | DIS         \nNASDAQ   | AAPL        \n```\n\n## Your Task Workflow\n\nFor each stock in the input table, perform the following analysis steps:\n\n1. **Identify Exchange and Use Appropriate Tool**:\n   - For NYSE stocks, use the NYSE Stock Analysis Tool\n   - For NASDAQ stocks, use the NASDAQ Stock Analysis Tool\n   - For NYSE Arca ETFs, use the NYSE Arca Stock Analysis Tool\n\n2. **Gather Current Trading Data**:\n   - Retrieve current stock price\n   - Get day's high and low\n   - Calculate day's trading volume compared to 30-day average\n   - Identify key technical indicators (50-day and 200-day moving averages, RSI, MACD)\n   - Note any unusual trading patterns or volume spikes\n\n3. **News Sentiment Analysis**:\n   - Search for company-specific news across all news sources\n   - Search for industry-related news\n   - Search for market-wide news that might impact the stock\n   - Analyze sentiment (positive, negative, neutral) of headlines\n   - Identify any breaking news that could significantly impact trading\n\n4. **Fundamental Analysis**:\n   - Check for recent earnings reports or upcoming earnings dates\n   - Review recent analyst ratings changes\n   - Check for dividend announcements\n   - Review P/E ratio compared to industry average\n\n5. **Generate Recommendation**:\n   - Synthesize all data points into a BUY, SELL, or HOLD recommendation\n   - Provide confidence level (HIGH, MEDIUM, LOW)\n   - List top 3 factors influencing your decision\n\n## Output Format\n\nFor each stock, provide your analysis in the following format:\n\n```\nANALYSIS FOR: [STOCK SYMBOL] ([COMPANY NAME])\nEXCHANGE: [EXCHANGE]\nCURRENT PRICE: $[PRICE] ([PERCENTAGE CHANGE])\nTRADING VOLUME: [VOLUME] ([PERCENTAGE VS 30-DAY AVG])\nKEY TECHNICALS: [SUMMARY OF TECHNICAL INDICATORS]\nNEWS SENTIMENT: [POSITIVE/NEGATIVE/NEUTRAL] - [BRIEF EXPLANATION]\nFUNDAMENTAL OUTLOOK: [BRIEF SUMMARY]\nRECOMMENDATION: [BUY/SELL/HOLD] (CONFIDENCE: [HIGH/MEDIUM/LOW])\nPRIMARY FACTORS:\n1. [FACTOR 1]\n2. [FACTOR 2]\n3. [FACTOR 3]\nADDITIONAL NOTES: [ANY SPECIAL CONSIDERATIONS]\n```\n\n## Additional Instructions\n\n1. **Time Sensitivity**: Prioritize breaking news and unusual trading patterns that have emerged during the current trading day.\n\n2. **Contextual Analysis**: Consider broader market trends - is this a sector-wide movement or stock-specific?\n\n3. **Risk Assessment**: Include any notable risk factors that could impact your recommendation.\n\n4. **Technical Analysis Weight**: For volatile stocks, weight technical indicators more heavily. For stable blue-chip stocks, weight fundamentals more heavily.\n\n5. **Confirmation Patterns**: Look for confirmation across multiple data sources before making high-confidence recommendations.\n\n6. **Contrary Indicators**: Explicitly note when you find conflicting signals and explain your reasoning for your final recommendation.\n\n7. **Transparency**: Always list the specific data points that led to your recommendation.\n\n## Example Process\n\n1. Receive stock: NYSE | KO | Coca-Cola Company\n2. Use NYSE Stock Analysis Tool to gather trading data\n3. Scan all news sources for \"Coca-Cola\" or \"KO\" related headlines\n4. Analyze beverage industry news for relevant context\n5. Check for earnings reports or analyst actions\n6. Synthesize data to form recommendation\n7. Format output according to the specification\n\nAlways provide reasoning that would be valuable to both novice and experienced investors. Focus on actionable insights rather than just data reporting."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -80,
+        -40
+      ],
+      "id": "64608384-7675-4798-974e-74baa8ec08d1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20241022",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        180
+      ],
+      "id": "42ee27ee-b52d-4845-a187-e05e9c2beeb2",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "Y8Jj5utib2BsMmqK",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "NASDAQ",
+        "description": "The NASDAQ Stock Analysis Tool provides comprehensive financial data analysis capabilities for stocks traded on the NASDAQ exchange. This tool enables automated workflows to gather, analyze, and visualize stock market data, helping users make informed investment decisions.",
+        "workflowId": {
+          "__rl": true,
+          "value": "dsJL3YGPqIm5nDDS",
+          "mode": "list",
+          "cachedResultName": "Technical Stock Analyst v2 NASDAQ"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        180
+      ],
+      "id": "f42b9141-ce24-4b1f-a595-bb317098c0e6",
+      "name": "NASDAQ Stock Analysis Tool"
+    },
+    {
+      "parameters": {
+        "name": "NYSE",
+        "description": "The NYSE Stock Analysis Tool provides comprehensive financial data analysis capabilities for stocks traded on the NYSE exchange. This tool enables automated workflows to gather, analyze, and visualize stock market data, helping users make informed investment decisions.",
+        "workflowId": {
+          "__rl": true,
+          "value": "EZGUZkOScAYwc2lH",
+          "mode": "list",
+          "cachedResultName": "Technical Stock Analyst v2 NYSE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        340
+      ],
+      "id": "257c95d9-7d20-4dbe-948f-bb3378856159",
+      "name": "NYSE Stock Analysis Tool"
+    },
+    {
+      "parameters": {
+        "chatId": "7421862063",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        -180
+      ],
+      "id": "0ca2d07e-cae6-4687-9bd5-a8300a92389f",
+      "name": "Telegram",
+      "credentials": {
+        "telegramApi": {
+          "id": "kTh2t7vs6slkcFlV",
+          "name": "Telegram account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a98b6a16-ba95-49a3-9106-8188fff5ec63",
+              "name": "Microsoft",
+              "value": "NASDAQ:MSFT",
+              "type": "string"
+            },
+            {
+              "id": "c659d8e3-de8e-47c6-9ebb-45f233643e9c",
+              "name": "Meta",
+              "value": "NASDAQ:META",
+              "type": "string"
+            },
+            {
+              "id": "5d1d5b90-e99d-438f-8691-88cbff52ab9c",
+              "name": "Nvidia",
+              "value": "NASDAQ:NVDA",
+              "type": "string"
+            },
+            {
+              "id": "973d6861-440e-4db2-9e25-3494d2634f4e",
+              "name": "Schwab Dividend ETF",
+              "value": "AMEX:SCHD",
+              "type": "string"
+            },
+            {
+              "id": "c43ce796-418e-408d-a238-ed592b471479",
+              "name": "Vanguard SP500",
+              "value": "AMEX:VOO",
+              "type": "string"
+            },
+            {
+              "id": "cf0c26b7-0371-431e-a0d5-b15688a543b7",
+              "name": "Vanguard Total Market",
+              "value": "AMEX:VTI",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -280,
+        -40
+      ],
+      "id": "8c662081-2ed3-4b1c-a3a2-549894aef253",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "name": "NewsAPI",
+        "description": "Call this tool to use the NewsAPI to gather the latest news headlines",
+        "workflowId": {
+          "__rl": true,
+          "value": "73n2334x1LFCBDFf",
+          "mode": "list",
+          "cachedResultName": "NewsAPI"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        260,
+        260
+      ],
+      "id": "b2a9f1ad-28f4-4daa-b086-158bfcb31005",
+      "name": "NewsAPI Tool",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to get current news headlines from Wiki News",
+        "url": "https://en.m.wikipedia.org/wiki/Portal:Current_events"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        120,
+        260
+      ],
+      "id": "9bea5458-7890-49d6-8031-74fe9b6e5637",
+      "name": "Wiki Current Events",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "toolDescription": "Get current headlines from CNN",
+        "url": "https://lite.cnn.com/"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        260
+      ],
+      "id": "907f2d29-d471-4bc0-8edd-2026b4ef4b7d",
+      "name": "CNN Headlines",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sendTo": "gerald.rimmer@gmail.com, liz.lippierimmer@gmail.com",
+        "subject": "=Stock Analysis:  {{ $('Schedule Trigger').item.json['Readable date'] }}",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        -20
+      ],
+      "id": "e57217a6-4df3-4fc0-8568-c42cb7c40d50",
+      "name": "Gmail",
+      "webhookId": "36a405e0-f21f-4c72-8089-d8e1ae0dd1ce",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "bzDEHKUrH3mpd0Tv",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Arca",
+        "description": "The NYSE Arca Stock Analysis Tool provides comprehensive financial data analysis capabilities for stocks traded on the NYSE Arca exchange. This tool enables automated workflows to gather, analyze, and visualize stock market data, helping users make informed investment decisions.",
+        "workflowId": {
+          "__rl": true,
+          "value": "DQg8ZkQahZKli48m",
+          "mode": "list",
+          "cachedResultName": "Technical Stock Analyst v2 NYSE Arca"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        540,
+        260
+      ],
+      "id": "8d5d3059-8d23-42ae-9949-dd58339bd87d",
+      "name": "NYSE Arca Stock Analysis Tool"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NASDAQ Stock Analysis Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NYSE Stock Analysis Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NewsAPI Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wiki Current Events": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CNN Headlines": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NYSE Arca Stock Analysis Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3b2cefe0-c212-4181-92fb-a53b3e176ae0",
+  "meta": {
+    "instanceId": "ff19fe3e1ecede32a9b50e41396632f656322b274eb4b7328c6b113e54538cd9"
+  },
+  "id": "I28gbbu8DrBZVWsc",
+  "tags": []
+}
