@@ -100,7 +100,7 @@
     },
     {
       "parameters": {
-        "chatId": "7421862063",
+        "chatId": "XXXXXXXXXXXXXXXXXXXXX",
         "text": "={{ $json.output }}",
         "additionalFields": {}
       },
@@ -226,7 +226,7 @@
     },
     {
       "parameters": {
-        "sendTo": "gerald.rimmer@gmail.com, liz.lippierimmer@gmail.com",
+        "sendTo": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "subject": "=Stock Analysis:  {{ $('Schedule Trigger').item.json['Readable date'] }}",
         "emailType": "text",
         "message": "={{ $json.output }}",
@@ -243,7 +243,7 @@
       "webhookId": "36a405e0-f21f-4c72-8089-d8e1ae0dd1ce",
       "credentials": {
         "gmailOAuth2": {
-          "id": "bzDEHKUrH3mpd0Tv",
+          "id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
           "name": "Gmail account"
         }
       }
